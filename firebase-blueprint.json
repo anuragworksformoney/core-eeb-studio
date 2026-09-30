@@ -1,0 +1,65 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "entities": {
+    "ContactSubmission": {
+      "title": "ContactSubmission",
+      "description": "A contact form or AI chat inquiry submitted by a website visitor.",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Full name of the submitter.",
+          "maxLength": 200
+        },
+        "businessName": {
+          "type": "string",
+          "description": "Business or organization name.",
+          "maxLength": 200
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "Email address of the submitter.",
+          "maxLength": 254
+        },
+        "phone": {
+          "type": "string",
+          "description": "WhatsApp or phone number of the submitter.",
+          "maxLength": 50
+        },
+        "service": {
+          "type": "string",
+          "description": "Service(s) requested.",
+          "maxLength": 500
+        },
+        "businessDescription": {
+          "type": "string",
+          "description": "Description of the business and project requirements.",
+          "maxLength": 5000
+        },
+        "source": {
+          "type": "string",
+          "description": "Source of the inquiry (e.g. AI_CHAT_AGENT or CONTACT_FORM).",
+          "maxLength": 50
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp of creation."
+        },
+        "status": {
+          "type": "string",
+          "enum": ["NEW"],
+          "description": "Status flag of the submission."
+        }
+      },
+      "required": ["name", "service", "businessDescription", "createdAt", "status"]
+    }
+  },
+  "firestore": {
+    "/contact_submissions/{submissionId}": {
+      "schema": "ContactSubmission",
+      "description": "Submissions from prospective clients via the website contact form and AI chat agent."
+    }
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "name": "CORE WEB STUDIO",
+  "description": "CORE WEB STUDIO builds websites, WhatsApp automation, SEO, lead generation and business automation solutions for real businesses.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
