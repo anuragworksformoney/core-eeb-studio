@@ -42,7 +42,7 @@ export default function Hero({ onOpenProjectModal }: HeroProps) {
   };
 
   return (
-    <section className="relative w-full lg:h-[calc(100vh-4.5rem)] lg:min-h-[520px] lg:max-h-[850px] flex flex-col justify-start lg:justify-between pt-2 pb-6 sm:pt-5 sm:pb-8 lg:py-5 xl:py-6 overflow-hidden">
+    <section className="relative w-full lg:h-[calc(100vh-4.5rem)] lg:min-h-[520px] lg:max-h-[850px] flex flex-col justify-start lg:justify-between pt-2 pb-6 sm:pt-5 sm:pb-8 lg:py-5 xl:py-6 overflow-x-clip lg:overflow-hidden touch-pan-y">
       <div className="relative max-w-6xl mx-auto px-4 sm:px-8 lg:px-12 w-full flex flex-col lg:h-full lg:flex-1 lg:justify-between">
         {/* Top Desktop Floating Stickers */}
         <div className="hidden lg:flex items-center justify-between mb-2 xl:mb-3 select-none shrink-0">
@@ -80,7 +80,7 @@ export default function Hero({ onOpenProjectModal }: HeroProps) {
           <h1 className="font-black uppercase text-[#111111] leading-[0.93] tracking-tighter text-[22px] min-[360px]:text-[28px] xs:text-[38px] sm:text-[52px] md:text-[64px] lg:text-[75px] xl:text-[86px] 2xl:text-[97px] select-none break-normal">
             <span className="block">WE BUILD</span>
             {/* Dynamic Rotating Word: strictly fixed-height line container to prevent any layout shift */}
-            <span className="block text-[#0047FF] h-[1.12em] relative overflow-hidden select-none">
+            <span className="block text-[#0047FF] h-[1.12em] relative overflow-hidden select-none pointer-events-none touch-pan-y">
               <AnimatePresence mode="wait">
                 <motion.span
                   key={ROTATING_PHRASES[index]}

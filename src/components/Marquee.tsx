@@ -9,7 +9,7 @@ const MARQUEE_ITEMS = [
 
 export default function Marquee() {
   return (
-    <div className="w-full overflow-hidden select-none bg-[#0047FF] text-white border-y-2 border-[#111111] py-3.5 sm:py-5 my-6 sm:my-10">
+    <div className="w-full overflow-hidden select-none bg-[#0047FF] text-white border-y-2 border-[#111111] py-3.5 sm:py-5 my-6 sm:my-10 touch-pan-y">
       <div className="flex whitespace-nowrap animate-marquee">
         {/* Render 4 copies for continuous seamless loop with zero blank gaps */}
         {[0, 1, 2, 3].map((copyIndex) => (

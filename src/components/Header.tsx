@@ -21,10 +21,12 @@ export default function Header({ onOpenProjectModal, onNavigateHome, isHome = tr
       window.addEventListener('keydown', handleKeyDown);
       return () => {
         document.body.style.overflow = '';
+        document.documentElement.style.overflow = '';
         window.removeEventListener('keydown', handleKeyDown);
       };
     } else {
       document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
     }
   }, [mobileMenuOpen]);
 

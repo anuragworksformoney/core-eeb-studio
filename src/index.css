@@ -1,15 +1,38 @@
 @import "tailwindcss";
 
 @layer base {
-  html, body {
+  html {
+    -webkit-text-size-adjust: 100%;
+    /* Keep horizontal overflow clipped without locking vertical scrolling */
+    overflow-x: clip;
+    touch-action: pan-y;
+  }
+
+  body {
     margin: 0;
     padding: 0;
     background-color: #FAF7EE;
     color: #111111;
     font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     letter-spacing: -0.01em;
-    overflow-x: hidden;
-    max-width: 100%;
+    min-height: 100%;
+    /* overflow-x: clip prevents horizontal scrollbars without creating a nested scroll context */
+    overflow-x: clip;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-y;
+  }
+
+  #root {
+    min-height: 100%;
+    overflow-x: clip;
+    touch-action: pan-y;
+  }
+}
+
+/* Enable smooth scrolling on desktop fine pointer without interfering with mobile touch swipes */
+@media (hover: hover) and (pointer: fine) {
+  html {
+    scroll-behavior: smooth;
   }
 }
 

@@ -107,7 +107,7 @@ export default function App() {
   };
 
   return (
-    <div className="bg-[#FAF7EE] bg-dotted-grid text-[#111111] min-h-screen relative selection:bg-[#0047FF] selection:text-white overflow-x-hidden">
+    <div className="bg-[#FAF7EE] bg-dotted-grid text-[#111111] min-h-screen relative selection:bg-[#0047FF] selection:text-white overflow-x-clip touch-pan-y">
       {/* Custom Cursor follower (Desktop Only, disabled on mobile/touch & prefers-reduced-motion) */}
       <CustomCursor />
 
@@ -119,7 +119,7 @@ export default function App() {
       />
 
       {/* Main Content Flow */}
-      <main className="w-full pt-16 lg:pt-18 overflow-x-hidden">
+      <main className="w-full pt-16 lg:pt-18 overflow-x-clip touch-pan-y">
         {route === 'terms' ? (
           <TermsPage onNavigateHome={() => navigateTo('/')} />
         ) : route === 'privacy' ? (
