@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, lazy, Suspense } from 'react';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import Marquee from './components/Marquee';
@@ -19,13 +19,18 @@ import SectionReveal from './components/SectionReveal';
 import TermsPage from './pages/TermsPage';
 import PrivacyPage from './pages/PrivacyPage';
 
-type Route = 'home' | 'terms' | 'privacy';
+const AdminPortal = lazy(() => import('./admin/AdminPortal'));
+
+type Route = 'home' | 'terms' | 'privacy' | 'admin';
 
 const getRouteFromLocation = (): Route => {
   if (typeof window === 'undefined') return 'home';
   const path = window.location.pathname.toLowerCase();
   const hash = window.location.hash.toLowerCase();
 
+  if (path.startsWith('/admin') || hash === '#admin' || hash.startsWith('#/admin')) {
+    return 'admin';
+  }
   if (path.startsWith('/terms') || hash === '#terms' || hash === '#terms-and-conditions') {
     return 'terms';
   }
@@ -55,7 +60,9 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    if (route === 'terms') {
+    if (route === 'admin') {
+      document.title = 'CORE WEB STUDIO — Admin Portal';
+    } else if (route === 'terms') {
       document.title = 'Terms & Conditions — CORE WEB STUDIO';
     } else if (route === 'privacy') {
       document.title = 'Privacy Policy — CORE WEB STUDIO';
@@ -68,7 +75,10 @@ export default function App() {
     let targetUrl = '/';
     let targetRoute: Route = 'home';
 
-    if (pathOrRoute === '/terms' || pathOrRoute === 'terms') {
+    if (pathOrRoute === '/admin' || pathOrRoute === 'admin') {
+      targetUrl = '/admin';
+      targetRoute = 'admin';
+    } else if (pathOrRoute === '/terms' || pathOrRoute === 'terms') {
       targetUrl = '/terms';
       targetRoute = 'terms';
     } else if (pathOrRoute === '/privacy' || pathOrRoute === 'privacy') {
@@ -105,6 +115,24 @@ export default function App() {
     }
     setIsQuickStartOpen(true);
   };
+
+  // If in Admin route, render isolated Admin Portal
+  if (route === 'admin') {
+    return (
+      <Suspense
+        fallback={
+          <div className="min-h-screen bg-slate-50 flex flex-col items-center justify-center p-6 text-slate-900 font-sans">
+            <div className="w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center font-bold text-lg mb-3 shadow-md">
+              C
+            </div>
+            <p className="text-xs font-semibold text-slate-700">Loading CORE WEB STUDIO Admin Portal...</p>
+          </div>
+        }
+      >
+        <AdminPortal onNavigatePublic={(target) => navigateTo(target || '/')} />
+      </Suspense>
+    );
+  }
 
   return (
     <div className="bg-[#FAF7EE] bg-dotted-grid text-[#111111] min-h-screen relative selection:bg-[#0047FF] selection:text-white overflow-x-clip touch-pan-y">

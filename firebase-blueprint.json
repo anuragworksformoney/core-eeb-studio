@@ -3,7 +3,7 @@
   "entities": {
     "ContactSubmission": {
       "title": "ContactSubmission",
-      "description": "A contact form or AI chat inquiry submitted by a website visitor.",
+      "description": "A contact form or intake inquiry submitted by a prospective client.",
       "type": "object",
       "properties": {
         "name": {
@@ -39,7 +39,7 @@
         },
         "source": {
           "type": "string",
-          "description": "Source of the inquiry (e.g. AI_CHAT_AGENT or CONTACT_FORM).",
+          "description": "Source of the inquiry.",
           "maxLength": 50
         },
         "createdAt": {
@@ -49,17 +49,178 @@
         },
         "status": {
           "type": "string",
-          "enum": ["NEW"],
-          "description": "Status flag of the submission."
+          "enum": ["NEW", "CONTACTED", "INTERESTED", "CONVERTED", "LOST"],
+          "description": "Lifecycle status of the lead."
+        },
+        "internalNotes": {
+          "type": "string",
+          "description": "Private admin notes on this enquiry.",
+          "maxLength": 10000
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp of the last status or notes update."
         }
       },
       "required": ["name", "service", "businessDescription", "createdAt", "status"]
+    },
+    "Project": {
+      "title": "Project",
+      "description": "Client project managed inside the private admin portal.",
+      "type": "object",
+      "properties": {
+        "clientName": {
+          "type": "string",
+          "description": "Name of client or business.",
+          "maxLength": 200
+        },
+        "projectName": {
+          "type": "string",
+          "description": "Project title.",
+          "maxLength": 200
+        },
+        "serviceType": {
+          "type": "string",
+          "description": "Primary service being delivered.",
+          "maxLength": 200
+        },
+        "status": {
+          "type": "string",
+          "enum": ["DEMO", "DISCUSSION", "IN PROGRESS", "REVIEW", "COMPLETED", "ON HOLD"],
+          "description": "Current status of the project."
+        },
+        "startDate": {
+          "type": "string",
+          "description": "Planned or actual start date (YYYY-MM-DD).",
+          "maxLength": 20
+        },
+        "deadline": {
+          "type": "string",
+          "description": "Target completion date (YYYY-MM-DD).",
+          "maxLength": 20
+        },
+        "liveUrl": {
+          "type": "string",
+          "description": "Staging or live URL for the project.",
+          "maxLength": 500
+        },
+        "internalNotes": {
+          "type": "string",
+          "description": "Internal notes, scope details, and passwords/credentials notes.",
+          "maxLength": 10000
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Creation timestamp."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Last update timestamp."
+        }
+      },
+      "required": ["clientName", "projectName", "serviceType", "status", "createdAt"]
+    },
+    "FollowUp": {
+      "title": "FollowUp",
+      "description": "A scheduled follow-up reminder for a prospective client or ongoing project.",
+      "type": "object",
+      "properties": {
+        "leadId": {
+          "type": "string",
+          "description": "Optional associated lead/contact submission ID.",
+          "maxLength": 128
+        },
+        "leadName": {
+          "type": "string",
+          "description": "Name of person to follow up with.",
+          "maxLength": 200
+        },
+        "leadEmail": {
+          "type": "string",
+          "description": "Email of person to follow up with.",
+          "maxLength": 254
+        },
+        "service": {
+          "type": "string",
+          "description": "Associated service inquiry.",
+          "maxLength": 200
+        },
+        "dueDate": {
+          "type": "string",
+          "description": "Due date for the follow up (YYYY-MM-DD).",
+          "maxLength": 20
+        },
+        "notes": {
+          "type": "string",
+          "description": "Reminder notes or action items.",
+          "maxLength": 2000
+        },
+        "completed": {
+          "type": "boolean",
+          "description": "Whether the follow up has been marked completed."
+        },
+        "completedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when completed."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Creation timestamp."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Update timestamp."
+        }
+      },
+      "required": ["leadName", "dueDate", "notes", "completed", "createdAt"]
+    },
+    "AdminUser": {
+      "title": "AdminUser",
+      "description": "Authorized administrator record for role validation.",
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "Admin email address.",
+          "maxLength": 254
+        },
+        "role": {
+          "type": "string",
+          "enum": ["admin", "owner"],
+          "description": "Role level."
+        },
+        "addedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When the admin was granted access."
+        }
+      },
+      "required": ["email", "role"]
     }
   },
   "firestore": {
     "/contact_submissions/{submissionId}": {
       "schema": "ContactSubmission",
-      "description": "Submissions from prospective clients via the website contact form and AI chat agent."
+      "description": "Submissions from prospective clients via the website contact form and intake modal."
+    },
+    "/projects/{projectId}": {
+      "schema": "Project",
+      "description": "Private client projects managed by CORE WEB STUDIO administrators."
+    },
+    "/follow_ups/{followUpId}": {
+      "schema": "FollowUp",
+      "description": "Follow-up reminders for client inquiries and ongoing engagements."
+    },
+    "/admins/{adminId}": {
+      "schema": "AdminUser",
+      "description": "List of authorized administrator user accounts."
     }
   }
 }
